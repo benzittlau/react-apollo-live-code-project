@@ -1,40 +1,35 @@
 import React, { Component } from 'react';
 import Link from './Link';
-import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 
-export const FEED_QUERY = gql`
+const linksToRender = [
   {
-    feed {
-      id
-      url
-      description
-    }
-  }
-`
+    id: 'link-0',
+    url: 'www.howtographql.com',
+    description: 'Fullstack tutorial for GraphQL'
+  },
+  {
+    id: 'link-1',
+    url: 'www.apollographql.com/',
+    description: 'Apollo projects website'
+  },
+  {
+    id: 'link-2',
+    url: 'reactjs.org/',
+    description: 'Website for React'
+  },
+]
 
 class LinkList extends Component {
   render() {
     return (
-      <Query query={FEED_QUERY}>
-        {({ loading, error, data }) => {
-          if (loading) return <div>Fetching</div>
-          if (error) return <div>Error</div>
-
-          const linksToRender = data.feed
-
-          return (
-            <div>
-              {linksToRender.map((link, index) => (
-                <Link 
-                  key={link.id} 
-                  link={link} 
-                  index={index}/>
-              ))}
-            </div>
-          )
-        }}
-      </Query>
+      <div>
+        {linksToRender.map((link, index) => (
+          <Link 
+            key={link.id} 
+            link={link} 
+            index={index}/>
+        ))}
+      </div>
     )
   }
 }
