@@ -4,7 +4,8 @@
     "start": "node src/index.js"
   },
   "dependencies": {
-    "graphql-yoga": "1.14.12"
+    "apollo-server": "^2.2.6",
+    "graphql": "^14.0.2"
   },
   "devDependencies": {}
 }
