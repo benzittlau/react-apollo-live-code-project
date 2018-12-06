@@ -1,29 +1,56 @@
 const { GraphQLServer } = require('graphql-yoga')
-const { Prisma } = require('prisma-binding')
-const Query = require('./resolvers/Query')
-const Mutation = require('./resolvers/Mutation')
-const Subscription = require('./resolvers/Subscription')
-const Feed = require('./resolvers/Feed')
+
+let links = [
+  {
+    id: 'link-0',
+    url: 'www.howtographql.com',
+    description: 'Fullstack tutorial for GraphQL'
+  },
+  {
+    id: 'link-1',
+    url: 'www.apollographql.com/',
+    description: 'Apollo projects website'
+  },
+  {
+    id: 'link-2',
+    url: 'reactjs.org/',
+    description: 'Website for React'
+  },
+]
+
+const typeDefs = `
+type Query {
+  info: String!
+  feed: [Link!]!
+}
+
+type Link {
+  id: ID!
+  url: String!
+  description: String!
+}
+
+type Mutation {
+  post(url: String!, description: String!): Link!
+}
+`
 
 const resolvers = {
-  Query,
-  Mutation,
-  Subscription,
-  Feed,
+  Query: {
+    info: () => `This is an API for a basic link posting service`,
+    feed: () => links,
+  },
+  Link: {
+    id: (root) => root.id,
+    url: (root) => root.url,
+    description: (root) => root.description,
+  }
+
 }
 
 const server = new GraphQLServer({
-  typeDefs: './src/schema.graphql',
+  typeDefs,
   resolvers,
-  context: req => ({
-    ...req,
-    db: new Prisma({
-      typeDefs: 'src/generated/prisma.graphql',
-      endpoint: 'https://us1.prisma.sh/ben-zittlau-175699/react-apollo/dev',
-      secret: 'mysecret123',
-      debug: true
-    }),
-  }),
 })
 
 server.start(() => console.log('Server is running on http://localhost:4000'))

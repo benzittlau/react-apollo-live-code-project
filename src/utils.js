@@ -27,6 +27,10 @@ function timeDifference(current, previous) {
 }
 
 export function timeDifferenceForDate(date) {
+  if(!date) {
+    return 'at an unknown time'
+  }
+
   const now = new Date().getTime()
   const updated = new Date(date).getTime()
   return timeDifference(now, updated)

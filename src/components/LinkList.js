@@ -6,12 +6,9 @@ import gql from 'graphql-tag';
 export const FEED_QUERY = gql`
   {
     feed {
-      links {
-        id
-        createdAt
-        url
-        description
-      }
+      id
+      url
+      description
     }
   }
 `
@@ -24,7 +21,7 @@ class LinkList extends Component {
           if (loading) return <div>Fetching</div>
           if (error) return <div>Error</div>
 
-          const linksToRender = data.feed.links
+          const linksToRender = data.feed
 
           return (
             <div>
